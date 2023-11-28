@@ -1,26 +1,61 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div id="app" class="ui text container">
+    <div class="ui text container">
+      <table class="ui selectable structured large table">
+        <thead>
+          <tr>
+            <th>Items</th>
+          </tr>
+        </thead>
+        <tbody class="item-list">
+          <tr v-for="(item, index) in items" :key="index">
+            <td>{{ item }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>
+              <form class="ui form" @submit="addItem">
+                <div class="field">
+                  <input
+                    v-model="item"
+                    type="text"
+                    class="prompt"
+                    placeholder="Add item..."
+                    value=""
+                  />
+                </div>
+                <button type="submit" class="ui button" :disabled="!item">
+                  Add
+                </button>
+                <span @click="removeAllItems" class="ui label">Remove all</span>
+              </form>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 export default {
-  name: "App",
-  components: {
-    HelloWorld,
+  name: "app",
+  data() {
+    return {
+      item: "",
+      items: [],
+    };
+  },
+  methods: {
+    addItem(evt) {
+      evt.preventDefault();
+      this.items.push(this.item);
+      this.item = "";
+    },
+    removeAllItems() {
+      this.items = [];
+    },
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
